@@ -9,4 +9,5 @@ import imb.lh.p3.clases.entity.Mascota;
 @Service
 public interface IMascotaService {
 	public List<Mascota> getAllMascotas();
+	public Mascota getMascotasById(Long id);
 }
