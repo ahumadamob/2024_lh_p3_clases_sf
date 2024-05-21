@@ -1,6 +1,5 @@
 package imb.lh.p3.clases.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +28,16 @@ public class MascotaServiceImpl implements IMascotaService {
 		}else {
 			return null;
 		}
+	}
+
+	@Override
+	public Mascota guardar(Mascota mascota) {
+		return repo.save(mascota);
+	}
+
+	@Override
+	public void eliminar(Long id) {
+		repo.deleteById(id);	
 	}
 
 
