@@ -16,7 +16,6 @@ public class Pokemon {
 	private int nivel;
 	private boolean legendario;
 	
-	
 	public Long getId() {
 		return id;
 	}
