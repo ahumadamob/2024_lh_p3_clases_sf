@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Pokemon {
@@ -12,7 +14,10 @@ public class Pokemon {
 	private Long id;	
 	private int pokedex_id;
 	private String nombre;
-	private String tipo;	
+	
+	@ManyToOne
+	@JoinColumn(name = "tipo_pokemon_id")
+	private TipoPokemon tipoPokemon;	
 	private int nivel;
 	private boolean legendario;
 	
@@ -27,12 +32,6 @@ public class Pokemon {
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 	public int getPokedex_id() {
 		return pokedex_id;
@@ -52,6 +51,14 @@ public class Pokemon {
 	public void setLegendario(boolean legendario) {
 		this.legendario = legendario;
 	}
+	/*
+	public TipoPokemon getTipoPokemon() {
+		return tipoPokemon;
+	}
+	public void setTipoPokemon(TipoPokemon tipoPokemon) {
+		this.tipoPokemon = tipoPokemon;
+	}*/
+	
 	
 	
 
