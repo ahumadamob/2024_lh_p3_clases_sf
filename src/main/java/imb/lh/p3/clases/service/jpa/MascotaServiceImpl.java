@@ -1,4 +1,4 @@
-package imb.lh.p3.clases.service;
+package imb.lh.p3.clases.service.jpa;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import imb.lh.p3.clases.entity.Mascota;
 import imb.lh.p3.clases.repository.MascotaRepository;
+import imb.lh.p3.clases.service.IMascotaService;
 
 @Service
 public class MascotaServiceImpl implements IMascotaService {
