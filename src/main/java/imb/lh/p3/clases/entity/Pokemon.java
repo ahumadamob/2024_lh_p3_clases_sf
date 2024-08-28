@@ -51,13 +51,13 @@ public class Pokemon {
 	public void setLegendario(boolean legendario) {
 		this.legendario = legendario;
 	}
-	/*
+	
 	public TipoPokemon getTipoPokemon() {
 		return tipoPokemon;
 	}
 	public void setTipoPokemon(TipoPokemon tipoPokemon) {
 		this.tipoPokemon = tipoPokemon;
-	}*/
+	}
 	
 	
 	
