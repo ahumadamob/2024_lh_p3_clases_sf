@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import imb.lh.p3.clases.entity.Producto;
 import imb.lh.p3.clases.service.IProductoService;
+import imb.lh.p3.clases.util.ApiResponse;
 
 @RestController
 public class ProductoController {
@@ -21,18 +22,43 @@ public class ProductoController {
 	IProductoService service;
 	
 	@GetMapping("/productos")
-	List<Producto> mostrarTodosLosProductos(){
-		return service.mostrarTodos();
+	ApiResponse<List<Producto>> mostrarTodosLosProductos(){
+		ApiResponse<List<Producto>> response = new ApiResponse<>();
+		List<Producto> lista = service.mostrarTodos();
+		
+		if(lista.isEmpty()) {
+			response.setError("No existe ningun producto");			
+		}else {
+			response.setData(lista);
+		}
+		
+		return response;
 	}
 	
 	@GetMapping("/productos/{id}")
-	Producto mostrarProductosPorId(@PathVariable("id") Long id){
-		return service.mostrarPorId(id);
+	ApiResponse<Producto> mostrarProductosPorId(@PathVariable("id") Long id){
+		ApiResponse<Producto> response = new ApiResponse<>();
+		Producto producto = service.mostrarPorId(id);
+		
+		if(producto == null) {
+			response.setError("No existe el ID " + id.toString());
+			
+		}else {
+			response.setData(producto);
+		}		
+		return response;
 	}
 	
 	@PostMapping("/productos")
-	Producto crearRegistro(@RequestBody Producto producto){
-		return service.guardar(producto);
+	ApiResponse<Producto> crearRegistro(@RequestBody Producto producto){
+		ApiResponse<Producto> response = new ApiResponse<>();
+		if(service.existe(producto.getId())) {
+			response.setError("Ya existe este elemento");
+		}else {
+			Producto productoGuardado = service.guardar(producto);
+			response.setData(productoGuardado);
+		}
+		return response;
 	}	
 	
 	@PutMapping("/productos")
