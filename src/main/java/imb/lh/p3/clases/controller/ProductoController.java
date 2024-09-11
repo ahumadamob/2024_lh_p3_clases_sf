@@ -62,13 +62,26 @@ public class ProductoController {
 	}	
 	
 	@PutMapping("/productos")
-	Producto actualizarRegistro(@RequestBody Producto producto){
-		return service.guardar(producto);
+	ApiResponse<Producto> actualizarRegistro(@RequestBody Producto producto){
+		ApiResponse<Producto> response = new ApiResponse<>();
+		if(service.existe(producto.getId())) {
+			Producto productoGuardado = service.guardar(producto);
+			response.setData(productoGuardado);
+		}else {
+			response.setError("El elemento no existe");
+		}
+		return response;
 	}
 	
 	@DeleteMapping("/productos/{id}")
-	void eliminarRegistro(@PathVariable("id") Long id){
-		service.eliminar(id);
+	String eliminarRegistro(@PathVariable("id") Long id){
+		if(service.existe(id)) {
+			service.eliminar(id);
+			return "El producto se eliminó";
+		}else {
+			return "El id no existe";
+		}
+		
 	}
 
 }
