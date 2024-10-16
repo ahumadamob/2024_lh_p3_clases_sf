@@ -41,4 +41,14 @@ public class PokemonServiceImplJpa implements IPokemonService {
 		repo.deleteById(id);
 	}
 
+	@Override
+	public boolean existe(Long id) {
+		if(id == null) {
+			return false;
+		}else {
+			return repo.existsById(id);
+		}
+		//return (id == null)? false :repo.existsById(id); 
+	}
+
 }

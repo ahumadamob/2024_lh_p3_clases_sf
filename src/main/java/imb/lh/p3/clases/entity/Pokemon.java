@@ -15,9 +15,9 @@ public class Pokemon {
 	private int pokedex_id;
 	private String nombre;
 	
-	@ManyToOne
-	@JoinColumn(name = "tipo_pokemon_id")
-	private TipoPokemon tipoPokemon;	
+	//@ManyToOne
+	//@JoinColumn(name = "tipo_pokemon_id")
+	//private TipoPokemon tipoPokemon;	
 	private int nivel;
 	private boolean legendario;
 	
@@ -52,12 +52,6 @@ public class Pokemon {
 		this.legendario = legendario;
 	}
 	
-	public TipoPokemon getTipoPokemon() {
-		return tipoPokemon;
-	}
-	public void setTipoPokemon(TipoPokemon tipoPokemon) {
-		this.tipoPokemon = tipoPokemon;
-	}
 	
 	
 	
