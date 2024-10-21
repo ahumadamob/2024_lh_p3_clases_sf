@@ -27,7 +27,7 @@ public class ProductoController {
 		List<Producto> lista = service.mostrarTodos();
 		
 		if(lista.isEmpty()) {
-			response.setError("No existe ningun producto");			
+			//response.setError("No existe ningun producto");			
 		}else {
 			response.setData(lista);
 		}
@@ -41,7 +41,7 @@ public class ProductoController {
 		Producto producto = service.mostrarPorId(id);
 		
 		if(producto == null) {
-			response.setError("No existe el ID " + id.toString());
+			//response.setError("No existe el ID " + id.toString());
 			
 		}else {
 			response.setData(producto);
@@ -53,7 +53,7 @@ public class ProductoController {
 	ApiResponse<Producto> crearRegistro(@RequestBody Producto producto){
 		ApiResponse<Producto> response = new ApiResponse<>();
 		if(service.existe(producto.getId())) {
-			response.setError("Ya existe este elemento");
+			//response.setError("Ya existe este elemento");
 		}else {
 			Producto productoGuardado = service.guardar(producto);
 			response.setData(productoGuardado);
@@ -68,7 +68,7 @@ public class ProductoController {
 			Producto productoGuardado = service.guardar(producto);
 			response.setData(productoGuardado);
 		}else {
-			response.setError("El elemento no existe");
+			//response.setError("El elemento no existe");
 		}
 		return response;
 	}

@@ -8,5 +8,6 @@ public interface IPokemonService {
 	public List<Pokemon> obtenerTodos();
 	public Pokemon obtenerPorId(Long id);
 	public Pokemon guardar(Pokemon pokemon);
-	public void eliminar(Long id);	
+	public void eliminar(Long id);
+	public boolean existe(Long id);
 }

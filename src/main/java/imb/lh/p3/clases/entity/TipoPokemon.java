@@ -22,8 +22,8 @@ public class TipoPokemon {
 	@Column(name="pierde_con")
 	private String pierdeCon;
 	
-	@OneToMany(mappedBy="tipoPokemon")
-	private List<Pokemon> pokemones;
+	//@OneToMany(mappedBy="tipoPokemon")
+	//private List<Pokemon> pokemones;
 	
 	public Long getId() {
 		return id;
@@ -49,12 +49,7 @@ public class TipoPokemon {
 	public void setPierdeCon(String pierdeCon) {
 		this.pierdeCon = pierdeCon;
 	}
-	public List<Pokemon> getPokemones() {
-		return pokemones;
-	}
-	public void setPokemones(List<Pokemon> pokemones) {
-		this.pokemones = pokemones;
-	}
+
 	
 
 	
