@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import imb.lh.p3.clases.entity.Pokemon;
 import imb.lh.p3.clases.service.IPokemonService;
-import imb.lh.p3.clases.util.ApiResponse;
+import imb.lh.p3.clases.util.DTOResponse;
 
 @RestController
 public class PokemonController {
@@ -28,20 +28,20 @@ public class PokemonController {
 	private IPokemonService service;
 	
 	@GetMapping("/pokemones")
-	public ApiResponse<List<Pokemon>> buscarPokemones() {
-		ApiResponse<List<Pokemon>> dto = new ApiResponse<>();
+	public DTOResponse<List<Pokemon>> buscarPokemones() {
+		DTOResponse<List<Pokemon>> dto = new DTOResponse<>();
 		List<Pokemon> listadoPokemon = service.obtenerTodos();
 		
 		dto.setStatus(200);
-		dto.setError(null);
+		dto.setMessage(null);
 		dto.setData(listadoPokemon);
 		return dto;
 		//return service.obtenerTodos();
 	}
 	
 	@GetMapping("/pokemon/{id}")
-	public ApiResponse<Pokemon> buscarPokemonesPorId(@PathVariable("id") Long id){
-		ApiResponse<Pokemon> dto = new ApiResponse<>();		
+	public DTOResponse<Pokemon> buscarPokemonesPorId(@PathVariable("id") Long id){
+		DTOResponse<Pokemon> dto = new DTOResponse<>();		
 		if(service.existe(id)) {
 			dto.setStatus(200);
 			dto.setData(service.obtenerPorId(id));
@@ -50,7 +50,7 @@ public class PokemonController {
 			List<String> errores = new ArrayList();
 			errores.add("No existe este Pokemon.");
 			errores.add("Vuelva mas tarde");
-			dto.setError(errores);
+			dto.setMessage(errores);
 			
 		}
 		return dto;
@@ -58,17 +58,17 @@ public class PokemonController {
 	}
 	
 	@PostMapping("/pokemon")
-	public ApiResponse<Pokemon> crearPokemon(@RequestBody Pokemon pokemon) {
+	public DTOResponse<Pokemon> crearPokemon(@RequestBody Pokemon pokemon) {
 		if(service.existe(pokemon.getId())) {
 			// Error
-			ApiResponse<Pokemon> dto = new ApiResponse<Pokemon>(
+			DTOResponse<Pokemon> dto = new DTOResponse<Pokemon>(
 														404, 
 														"El id " + pokemon.getId().toString() + " SI existe",
 														null);
 			return dto;
 		}else {
 			// Exito
-			ApiResponse<Pokemon> dto = new ApiResponse<Pokemon>(
+			DTOResponse<Pokemon> dto = new DTOResponse<Pokemon>(
 					200, 
 					"",
 					service.guardar(pokemon));
@@ -77,14 +77,14 @@ public class PokemonController {
 	}
 	
 	@PutMapping("/pokemon")
-	public ResponseEntity<ApiResponse<Pokemon>> actualizarPokemon(@RequestBody Pokemon pokemon){
+	public ResponseEntity<DTOResponse<Pokemon>> actualizarPokemon(@RequestBody Pokemon pokemon){
 		if(service.existe(pokemon.getId())) {
-			ApiResponse<Pokemon> dto = new ApiResponse<Pokemon>(200,"",service.guardar(pokemon));
-			return ResponseEntity.ok().body(dto);
+			DTOResponse<Pokemon> dto = new DTOResponse<Pokemon>(200,"",service.guardar(pokemon));
+			return ResponseEntity.status(HttpStatus.OK).body(dto);
 		}else {
-			ApiResponse<Pokemon> dto = new ApiResponse<Pokemon>(404,"El id " + pokemon.getId().toString() + " SI existe",null);
+			DTOResponse<Pokemon> dto = new DTOResponse<Pokemon>(404,"El id " + pokemon.getId().toString() + " SI existe",null);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
-			//ResponseEntity.accepted().body(null);
+						//ResponseEntity.accepted().body(null);
 		}
 		//return service.guardar(pokemon);
 		
@@ -93,9 +93,15 @@ public class PokemonController {
 	}
 	
 	@DeleteMapping("/pokemon/{id}")
-	public String eliminarPokemon(@PathVariable("id") Long id) {
-		service.eliminar(id);
-		return "El proceso de eliminación se completó";
+	public ResponseEntity<DTOResponse<?>> eliminarPokemon(@PathVariable("id") Long id) {
+		if(service.existe(id)) {
+			service.eliminar(id);
+			DTOResponse<?> dtoSi = new DTOResponse<>(200, "El pokemon se eliminó", null);
+			return ResponseEntity.status(HttpStatus.OK).body(dtoSi);
+		}else {
+			DTOResponse<?> dtoNo = new DTOResponse<>(404, "El pokemon no existe", null);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dtoNo);
+		}
 	}
 
 }
